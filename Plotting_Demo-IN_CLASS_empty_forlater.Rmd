@@ -1,11 +1,9 @@
 ---
 title: "Intro to Plotting"
-output:
-  html_document:
-    df_print: paged
+output: html_notebook
 ---
 
-## **Introduction**
+## Introduction
 
 ### Most of what we do below is discussed in more detail in the Data Visualization Chapter of R for Data Science. (<https://r4ds.had.co.nz/data-visualisation.html>)
 
@@ -29,8 +27,6 @@ You only have to install the library once. You have to load it using the library
 #install.packages("tidyverse")
 library(tidyverse)
 
-
-
 ```
 
 ## Reading data
@@ -43,16 +39,13 @@ SNP <- read_csv("PINE_NFDR_Jan-Mar_2010.csv")
 RBI <- read_csv("Flashy_Dat_Subset.csv")
 ```
 
-
+![Basic ggplot syntax](images/ggplot syntax-01.png "GGplot syntax")
 
 ## Our first ggplot
 
 Let's look at the Pine data, plotting streamflow (the cfs column) by the date (datetime column). We will show the time series as a line.
 
 ```{r}
-theme_set(theme_classic())
-ggplot(data = Pine, mapping = aes(x=datetime, y=cfs))+
-  geom_line()
 
 ```
 
@@ -63,8 +56,7 @@ Now let's make the same plot but show the data as points, using the pch paramete
 ![R has 25 built in shapes that are identified by numbers. There are some seeming duplicates: for example, 0, 15, and 22 are all squares. The difference comes from the interaction of the \`colour\` and \`fill\` aesthetics. The hollow shapes (0--14) have a border determined by \`colour\`; the solid shapes (15--20) are filled with \`colour\`; the filled shapes (21--24) have a border of \`colour\` and are filled with \`fill\`.](https://d33wubrfki0l68.cloudfront.net/e28a1b57b6622cf67fd8a7e01c6a9955914f8fe9/635be/visualize_files/figure-html/shapes-1.png)
 
 ```{r}
-ggplot(data = Pine, mapping = aes(x=datetime, y=cfs))+
-  geom_point(pch=8)
+
 ```
 
 ## Set colors
@@ -76,8 +68,7 @@ What happens is that if color = "blue" is in the aesthetic, ggplot creates a new
 Take the color = "blue" out of the aesthetic and you're golden.
 
 ```{r}
-ggplot(data = Pine, mapping = aes(x=datetime, y=cfs))+
-  geom_point(color="blue")
+
 ```
 
 ## Controlling color with a third variable and other functions
@@ -93,12 +84,7 @@ Third: change the axis labels
 Fourth: color by discharge
 
 ```{r}
-ggplot(data = Pine, mapping = aes(x=datetime, y=cfs, color=cfs))+
-  geom_line()+
-   ylab("Discharge (cfs)")+
-  xlab(element_blank())+
-  theme_light()
- 
+
 ```
 
 ## Plotting multiple groups
@@ -110,12 +96,7 @@ We can look at the two of those a couple of different ways
 First, make two lines, colored by the stream by adding color = to your aesthetic.
 
 ```{r}
-ggplot(data = SNP, mapping = aes(x=datetime, y=cfs, color=StationID))+
-  geom_line()+
-   ylab("Discharge (cfs)")+
-  xlab(element_blank())+
-  theme_light()
- 
+
 ```
 
 ## Facets
@@ -125,12 +106,7 @@ We can also use facets.
 You must tell the facet_wrap what variable to use to make the separate panels (facet =). It'll decide how to orient them or you can tell it how. We want them to be on top of each other so we are going to tell it we want 2 rows by setting nrow = 2. Note that we have to put the column used to make the facets in quotes after facets =
 
 ```{r}
-ggplot(data = SNP, mapping = aes(x=datetime, y=cfs))+
-  geom_line()+
-   ylab("Discharge (cfs)")+
-  xlab(element_blank())+
-  facet_wrap(facets = "StationID", nrow = 2)+ #ncol would be for column
-  theme_light()
+
 ```
 
 ## Two variable faceting
