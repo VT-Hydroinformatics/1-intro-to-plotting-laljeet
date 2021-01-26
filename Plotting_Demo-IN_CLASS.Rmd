@@ -138,7 +138,10 @@ ggplot(data = SNP, mapping = aes(x=datetime, y=cfs))+
 You can also use facet_grid() to break your plots up into panels based on two variables. Below we will create a panel for each month in each watershed. Adding scales = "free" allows facet_grid to change the axes. By default, all axes will be the same. This is often what we want, so we can more easily compare magnitudes, but sometimes we are looking for patterns more, so we may want to let the axes have whatever range works for the individual plots.
 
 ```{r}
-
+ggplot(data=SNP, aes(x=datetime, y=cfs))+
+  geom_line()+
+  facet_grid(StationID~month, scales = "free")+
+  theme_classic()
 ```
 
 ## Boxplots
@@ -148,7 +151,9 @@ We can look at these data in other ways as well. A very useful way to look at th
 Because the data span several orders of magnitude, we will have to log the y axis to see the differences between the two streams. We do that by adding scale_y\_log10()
 
 ```{r}
-
+ggplot(data=SNP, aes(x=StationID, y=cfs))+
+  stat_boxplot()+
+  scale_y_log10()
 ```
 
 ## More about color, size, etc
@@ -162,7 +167,8 @@ If you use a point type that has a background, like \#21, you can also set the b
 If points are too close together to see them all you can use a hollow point type or set the alpha lower so the points are transparent (alpha = )
 
 ```{r}
-
+ggplot(data=RBI, aes(x=RBI, y=DRAIN_SQKM,size=T_AVG_SITE, bg=STATE))+
+  geom_point(pch=21, alpha=0.3)
 ```
 
 ## Multiple geoms
@@ -170,5 +176,9 @@ If points are too close together to see them all you can use a hollow point type
 Finally: You can add multiple geoms to the same plot. Examples of when you might want to do this are when you are showing a line fit and want to show the points as well, or maybe showing a boxplot and want to show the data behind it. You simply add additional geom\_... lines to add additional geoms.
 
 ```{r}
-
+ggplot(RBI, aes(RBI, DRAIN_SQKM, color =AGGECOREGION))+
+  stat_smooth(method = 'lm', linetype=2)+
+  geom_point()+
+  geom_line()
 ```
+
